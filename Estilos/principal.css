@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --fondo-principal: #121212;
+    --fondo-secundario: #1e1e1e;
+    --color-texto: #ffffff;
+    --color-destacado: #a3a3a3;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'roboto', Arial;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--fondo-principal);
+    color: var(--color-texto);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+    background-color: #000000;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navDiseño {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+.navDiseño li {
+    display: inline-flex;
+    list-style: none;
+    margin: 0;
+}
+
+.navDiseño a {
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.presDiseño {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.multivid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.multivid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55); 
+    z-index: 2;
+    pointer-events: none; 
+}
+
+.fondoIMG {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    object-position: center;
+    z-index: 1;
+}
+
+.ContentPres {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #ffffff;
+}
+
+.logoPNG {
+    max-width: 180px;
+    height: auto;
+}
+
+.ContentPres h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.menuDiseño {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    padding: 2.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.articulosDiseño, .reseñaDiseño {
+    background-color: var(--fondo-secundario);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+    transition: background-color 0.3s ease;
+}
+
+.articulosDiseño::before {
+    content: "Productos Destacados";
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-texto);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.reseñaDiseño::before {
+    content: "Opiniones de Clientes";
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-texto);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.destacadoDiseño, .opinionDiseño {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.destacadoDiseño .articulo {
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 1.2rem;
+    gap: 1rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.destacadoDiseño .articulo:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.destacadoDiseño .multimedia {
+    width: 100%;
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.destacadoDiseño .product {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.destacadoDiseño .producto {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.destacadoDiseño .producto h2 {
+    font-size: 1rem;
+    color: var(--color-texto);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.destacadoDiseño .producto p {
+    font-size: 0.9rem;
+    color: var(--color-destacado);
+}
+
+.destacadoDiseño .producto span {
+    font-weight: bold;
+    color: var(--color-texto);
+}
+
+.clienteReseña {
+    flex: 0 0 280px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: transform 0.2s ease;
+}
+
+.clienteReseña:hover {
+    transform: translateY(-2px);
+}
+
+.nameClient {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-texto);
+}
+
+.mensage {
+    font-size: 0.95rem;
+    color: var(--color-destacado);
+    line-height: 1.4;
+    font-style: italic;
+}

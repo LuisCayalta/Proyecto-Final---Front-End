@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --fondo-principal: #121212;
+    --fondo-secundario: #1e1e1e;
+    --color-texto: #ffffff;
+    --color-destacado: #a3a3a3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'roboto', Arial;
+    background-color: var(--fondo-principal);
+    color: var(--color-texto);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+    background-color: #000000;
+    position: relative; 
+    z-index: 100;
+}
+
+.navilist ul {
+    padding: 1rem 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+}
+
+.navilist a {
+    text-decoration: none;
+    color: whitesmoke;
+    font-weight: 700;
+}
+
+#desplegableMenu {
+    position: relative;
+}
+
+.plegaDiseño {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--fondo-secundario);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 1rem;
+    z-index: 1000;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    min-width: 220px;
+}
+
+.plegaDiseño ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 0;
+}
+
+.plegaDiseño li {
+    width: 100%;
+}
+
+.plegaDiseño label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--color-texto);
+    width: 100%;
+}
+
+.ContentT {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: start;
+    transition: grid-template-columns 0.3s ease;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.ContentT:has(#detalles[style*="display: block"]) {
+    grid-template-columns: 2fr 1fr;
+}
+
+.articulos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+    gap: 2rem;
+}
+
+.articulo {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto auto;
+    background-color: var(--fondo-secundario);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.2rem;
+    gap: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.3s ease;
+}
+
+.articulo:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.multimedia {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 5px;
+}
+
+.product {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.producto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.producto h2 {
+    margin: 0;
+    font-size: 1.1rem; 
+    color: var(--color-texto);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.producto p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-destacado);
+}
+
+.estado-tag {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem !important;
+}
+
+.precio-tag span, .producto span {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: var(--color-texto);
+}
+
+.btnd {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.btnd button {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-texto);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btnd button:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.btnd button:active {
+    transform: scale(0.97);
+}
+
+.carri {
+    width: 1.4rem;
+    height: 1.4rem;
+    filter: invert(1);
+}
+
+.details {
+    position: sticky;
+    top: 2rem;
+    background-color: var(--fondo-secundario);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    transition: background-color 0.3s ease;
+}
+
+.infoAll {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.5rem;
+}
+
+.vidmp {
+    height: 250px;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    object-fit: cover;
+    background-color: #000;
+}
+
+.infoProd {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    color: var(--color-texto);
+}
+
+.infoProd h3 {
+    font-size: 1.3rem;
+}
+
+.infoProd p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--color-destacado);
+}
+
+.infoProd p strong {
+    color: var(--color-texto);
+}
+
+.infoProd .precio span {
+    font-size: 1.5rem;
+    color: var(--color-texto);
+    font-weight: bold;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.bobtn {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.subCarro.bobtn {
+    background-color: var(--color-texto);
+    color: var(--fondo-principal);
+    border: none;
+}
+
+.subCarro.bobtn:hover {
+    background-color: var(--color-destacado);
+}
+
+.cerrar.bobtn {
+    background-color: transparent;
+    color: var(--color-texto);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.cerrar.bobtn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.carroLista {
+    display: none;
+}

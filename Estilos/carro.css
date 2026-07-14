@@ -1,0 +1,187 @@
+:root {
+    --fondo-principal: #121212;
+    --fondo-secundario: #1e1e1e;
+    --color-texto: #ffffff;
+    --color-destacado: #a3a3a3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--fondo-principal);
+    color: var(--color-texto);
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.diseñoContenido {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: calc(100vh - 80px);
+}
+
+#desplegableMenu {
+    background-color: var(--fondo-secundario);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 100%;
+    overflow-y: auto;
+    transition: background-color 0.3s ease;
+}
+
+.plegaDiseño ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.plegaDiseño li {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.plegaDiseño li:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.plegaDiseño label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.plegaDiseño span {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.diseñoCarro {
+    background-color: var(--fondo-secundario);
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+}
+
+.diseñoCarro::before {
+    content: "Tu Carrito";
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--color-texto);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+#carroProductos {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#carroProductos::-webkit-scrollbar {
+    width: 8px;
+}
+
+#carroProductos::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#carroProductos::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+#carroProductos::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.itemCarrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 15px 20px;
+    gap: 15px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.itemCarrito:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.itemCarrito h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    flex: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.itemCarrito p {
+    font-size: 1.05rem;
+    color: var(--color-destacado);
+    flex: 1;
+    text-align: right;
+    font-weight: bold;
+}
+
+.btnEliminar {
+    background-color: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btnEliminar:hover {
+    background-color: #dc2626;
+}
+
+.btnEliminar:active {
+    transform: scale(0.95);
+}
+
+.seccionTotal {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--fondo-secundario);
+}
+
+.seccionTotal h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-texto);
+}
