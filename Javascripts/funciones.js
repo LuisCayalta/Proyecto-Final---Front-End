@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. SECCIÓN GENERAL
+   ========================================================================== */
 const carritoArray = JSON.parse(localStorage.getItem('carritoLimpio')) || [];
 const detallesProducto = document.getElementById('detalles');
 const catalogo = document.getElementById('productContent');
@@ -8,23 +11,52 @@ export function conversionPesos(precProd) {
     return conversion;
 }
 
-export function mostrarPres(pres, imgPres, logoPres) {
-    pres.innerHTML = `
-        <div class="multivid">
-            <video src="${imgPres}" class="fondoIMG" autoplay muted loop></video>
-        </div>
-        <div class="ContentPres">
-            <img src="${logoPres}" class="logoPNG"> <h1>V&Tech</h1>
-        </div>
-    `;
+function crearLista(xFila, xLabel, listaLista, tipo){
+    listaLista.forEach(item => {
+        xFila = document.createElement('li');
+        xLabel = document.createElement('label'); 
+        if(tipo){
+            xLabel.innerHTML = `<button>${item.nombre}</button>`
+        }
+        else if(tipo){
+            xLabel.innerHTML = `
+            <input type="radio" id="${item.id}" name="color" class="radioTema">
+            <span>${item.nombre}</span>
+        `;
+        }
+    });
 }
 
-export function desplegar(desplegable, listaple) {
+function listaDefault(deple) {
     const plegar = document.createElement('div');
     plegar.id = 'plegable';
     plegar.classList.add('plegaDiseño');
     
     const listaDesor = document.createElement('ul');
+    
+    plegar.appendChild(listaDesor);
+    deple.appendChild(plegar);
+    
+    return listaDesor;
+}
+
+export function regresarUl(desple, listaLinks) {
+    const contenedorUl = listaDefault(desple);
+
+    listaLinks.forEach(linka => {
+        const filaInfo = document.createElement('li');
+        const alInfo = document.createElement('a');
+        alInfo.setAttribute('href', linka.linkNav);
+
+        alInfo.textContent = `Regresar a ${linka.nombreNav}`;
+        
+        filaInfo.appendChild(alInfo);
+        contenedorUl.appendChild(filaInfo);
+    });
+}
+
+export function desplegar(desplegable, listaple) {
+    const contenedorUl = listaDefault(desplegable);
 
     listaple.forEach(tema => {
         const filaInfo = document.createElement('li');
@@ -47,42 +79,68 @@ export function desplegar(desplegable, listaple) {
         });
 
         filaInfo.appendChild(labelInfo);
-        listaDesor.appendChild(filaInfo);
+        contenedorUl.appendChild(filaInfo);
     });
-
-    plegar.appendChild(listaDesor);
-    desplegable.appendChild(plegar);
 }
 
 function actualizarContador() {
     const cantidadProducto = document.getElementById('elCarro');
     if (cantidadProducto) {
-        cantidadProducto.innerHTML = `<a href="#listaCarro">Carrito = ${carritoArray.length}</a>`;
+        cantidadProducto.innerHTML = `<a href="../Estructura html/carro.html">Carrito = ${carritoArray.length}</a>`;
     }
 }
 
-export function deleteBTN(rmItem, clasePresion, lista){
-    clasePresion.addEventListener('click', () =>{
-        const sobreEscritura = lista.filter(prod => prod.id !== rmItem.id)
-        localStorage.setItem('carritoLimpio', JSON.stringify(sobreEscritura));
-        location.reload();
-    })
+function modificar(valormodificar1, valormodificar2, listamodificar, funcion) {
+    let modProduct = { ...listamodificar };
+    if (modProduct[valormodificar1] && !modProduct[valormodificar2]) {
+        modProduct[valormodificar1] = funcion(modProduct[valormodificar2]);
+    }
+    return modProduct;
 }
 
-function clickCarro(actual) {
-    let modProduct = {...actual};
-    if (modProduct.price && !modProduct.precio){
-        modProduct.precio = conversionPesos(modProduct.price)
-    }
-    
-    carritoArray.push(modProduct);
-    localStorage.setItem('carritoLimpio', JSON.stringify(carritoArray));
-    
-    actualizarContador();
+async function unificar(listaPropia, clavesFaltante) {
+    let listaUnificada = [...listaPropia];
 
-    if (typeof carroVisual === 'function') { 
-        carroVisual(); 
+    try {
+        const recibirAPI = await fetch('https://fakestoreapi.com/products');
+        const listaAPI = await recibirAPI.json();
+
+        listaAPI.forEach(prodapi => {
+            if (prodapi.category === 'electronics') {
+                let prodNormalizado = modificar('precio', 'price', prodapi, conversionPesos);
+                prodNormalizado = modificar('categoria', 'category', prodNormalizado, () => 'Electronica');
+                prodNormalizado = modificar('img', 'image', prodNormalizado, (imgOriginal) => imgOriginal);
+
+                const datosExtra = datosFaltantesAPI.find(extra => extra.id === prodapi.id);
+                if (datosExtra) {
+                    prodNormalizado = clavesFaltante(prodNormalizado, datosExtra);
+                }
+
+                listaUnificada.push(prodNormalizado);
+            }
+        });
+
+    } catch (error) {
+        console.error("Error", error);
     }
+
+    return listaUnificada;
+}
+
+
+/* ==========================================================================
+   2. SECCIÓN PRINCIPAL
+   ========================================================================== */
+
+export function mostrarPres(pres, imgPres, logoPres) {
+    pres.innerHTML = `
+        <div class="multivid">
+            <video src="${imgPres}" class="fondoIMG" autoplay muted loop></video>
+        </div>
+        <div class="ContentPres">
+            <img src="${logoPres}" class="logoPNG"> <h1>V&Tech</h1>
+        </div>
+    `;
 }
 
 export function reseñaLista(tarOp, totalReseña){
@@ -119,7 +177,7 @@ function mejorRating(prod){
         const promedio = prodEs.rating.rate * prodEs.rating.count;
         mejores.push({...prodEs, puntuacion : promedio}); 
     });
-    mejores.sort((x, y)=> y.puntuacion - x.puntuacion);
+    mejores.sort((x, y) => y.puntuacion - x.puntuacion);
     return mejores.slice(0, 3);
 }
 
@@ -137,39 +195,12 @@ export function mejoresPROD(api, conteiner, prodDestacado, conver){
     });
 }
 
-function detalsProducto(actual){
-    detallesProducto.innerHTML = `
-        <div class="infoAll">
-            <iframe src="${actual.image}" class="vidmp"></iframe>
-            <div class="infoProd">
-                <h3>${actual.title}</h3>
-                <p>${actual.description}</p>
-                <p>Precio: <span>$${conversionPesos(actual.price).toLocaleString('es-AR', {maximumFractionDigits:0})}</span></p>
-                <p>Calificacion: ${actual.rating.rate}</p>
-                <p>Votos totales: ${actual.rating.count}</p>
-            </div>
-            <div class="footer">
-                <button type="button" class="carrito2 bobtn subCarro">
-                    <span>Agregar al carrito</span>
-                </button>
-                <button type="button" class="cerrar bobtn">
-                    <span>Cerrar panel</span>
-                </button>
-            </div>
-        </div>
-    `;
-    detallesProducto.style.display = 'block';
+/* ==========================================================================
+   3. SECCIÓN DE PRODUCTOS
+   ========================================================================== */
 
-    const carriDetals = detallesProducto.querySelector('.subCarro');
-    carriDetals.addEventListener('click', () => {
-        clickCarro(actual);
-    });
-
-    const btnCerrar = detallesProducto.querySelector('.cerrar');
-    btnCerrar.addEventListener('click', () => {
-        detallesProducto.style.display = 'none';
-        detallesProducto.innerHTML = '';
-    });
+export function productosFiltr (){
+    
 }
 
 export function agregarProducto(actual){
@@ -210,17 +241,16 @@ export function agregarProducto(actual){
     }
 }
 
-function detalsProductoPropio(actual){
+function detalsProducto(actual){
     detallesProducto.innerHTML = `
         <div class="infoAll">
-            <video src="../Multimedia/${actual.video}" autoplay muted loop class="vidmp"></video>
+            <iframe src="${actual.image}" class="vidmp"></iframe>
             <div class="infoProd">
-                <h3>${actual.nombre}</h3>
-                <p class="tagline"><strong>Marca:</strong> ${actual.marca} | <strong>Línea:</strong> ${actual.linea}</p>
-                <p class="descripcion">${actual.descripcion}</p>
-                <p><strong>Estado:</strong> ${actual.Estado}</p>
-                <p><strong>Lanzamiento:</strong> ${actual.Fecha}</p>
-                <p class="precio">Precio: <span>$${actual.precio.toLocaleString('es-AR', {maximumFractionDigits:0})}</span></p>
+                <h3>${actual.title}</h3>
+                <p>${actual.description}</p>
+                <p>Precio: <span>$${conversionPesos(actual.price).toLocaleString('es-AR', {maximumFractionDigits:0})}</span></p>
+                <p>Calificacion: ${actual.rating.rate}</p>
+                <p>Votos totales: ${actual.rating.count}</p>
             </div>
             <div class="footer">
                 <button type="button" class="carrito2 bobtn subCarro">
@@ -282,4 +312,68 @@ export function agregarProductoPropio(actual){
     if (catalogo) {
         catalogo.appendChild(target);
     }
+}
+
+function detalsProductoPropio(actual){
+    detallesProducto.innerHTML = `
+        <div class="infoAll">
+            <video src="../Multimedia/${actual.video}" autoplay muted loop class="vidmp"></video>
+            <div class="infoProd">
+                <h3>${actual.nombre}</h3>
+                <p class="tagline"><strong>Marca:</strong> ${actual.marca} | <strong>Línea:</strong> ${actual.linea}</p>
+                <p class="descripcion">${actual.descripcion}</p>
+                <p><strong>Estado:</strong> ${actual.Estado}</p>
+                <p><strong>Lanzamiento:</strong> ${actual.Fecha}</p>
+                <p class="precio">Precio: <span>$${actual.precio.toLocaleString('es-AR', {maximumFractionDigits:0})}</span></p>
+            </div>
+            <div class="footer">
+                <button type="button" class="carrito2 bobtn subCarro">
+                    <span>Agregar al carrito</span>
+                </button>
+                <button type="button" class="cerrar bobtn">
+                    <span>Cerrar panel</span>
+                </button>
+            </div>
+        </div>
+    `;
+    detallesProducto.style.display = 'block';
+
+    const carriDetals = detallesProducto.querySelector('.subCarro');
+    carriDetals.addEventListener('click', () => {
+        clickCarro(actual);
+    });
+
+    const btnCerrar = detallesProducto.querySelector('.cerrar');
+    btnCerrar.addEventListener('click', () => {
+        detallesProducto.style.display = 'none';
+        detallesProducto.innerHTML = '';
+    });
+}
+
+/* ==========================================================================
+   4. SECCIÓN DE CARRITO
+   ========================================================================== */
+
+function clickCarro(actual) {
+    let modProduct = {...actual};
+    if (modProduct.price && !modProduct.precio){
+        modProduct.precio = conversionPesos(modProduct.price)
+    }
+    
+    carritoArray.push(modProduct);
+    localStorage.setItem('carritoLimpio', JSON.stringify(carritoArray));
+    
+    actualizarContador();
+
+    if (typeof carroVisual === 'function') { 
+        carroVisual(); 
+    }
+}
+
+export function deleteBTN(rmItem, clasePresion, lista){
+    clasePresion.addEventListener('click', () =>{
+        const sobreEscritura = lista.filter(prod => prod.id !== rmItem.id)
+        localStorage.setItem('carritoLimpio', JSON.stringify(sobreEscritura));
+        location.reload();
+    })
 }
